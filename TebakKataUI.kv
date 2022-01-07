@@ -1,0 +1,82 @@
+
+<tebak_kata>:
+
+<tebak_kata>:
+    lb_msg: lb_msg
+    rv_words: rv_words
+    pb_score: pb_score
+    orientation: 'vertical'
+#    padding: 2
+    spacing: 2
+    TitleBar:
+    Label:
+        text: str(int(pb_score.value))
+        font_name: "zekton"
+        size_hint_y: 0.1
+        font_size: self.height/2
+    ProgressBar:
+        id: pb_score
+        size_hint_y: 0.1
+        max: 500
+        value: int(0)
+    Label:
+        id: lb_msg
+        size_hint_y: 0.1
+        text: "Tabak Kata"
+        font_name: "zekton"
+        bold: True
+        font_size: self.height/2
+    RecycleView:
+        id: rv_words
+        size_hint_y: 0.3
+        data: root.populateData()
+        viewclass: "Cell"
+        RecycleBoxLayout:
+            default_size_hint: 1, None
+            orientation: 'horizontal'
+            spacing: 5
+            padding: 5
+    Label:
+        size_hint_y: 0.2
+    TabBar:
+
+
+<Cell>:
+    text: ""
+    is_readonly: True
+    canvas.before:
+        Color:
+            rgb: (52/256, 152/256, 219/256) #0,0.9,0.7
+        Rectangle:
+            pos: root.x, root.y
+            size: root.width, root.height
+            #radius: [15]
+    TextInput:
+        text: root.text
+        font_name: "zekton"
+        readonly: root.is_readonly
+        is_focusable: (not root.is_readonly)
+        background_color: 0,0,0,0
+        halign: "center"
+        multiline: False
+        padding: [2, self.height / 2.0 - self.line_height / 2.0]
+        font_size: self.height/2
+        write_tab: False
+        on_text: root.didSelectCell(root.idx, app.root.get_screen("game").mutatedWord)
+        on_text_validate: app.root.get_screen("game").checkAnswer()
+
+
+<MyPopup>:
+    title: "Peringatan!!"
+    font_name: "zekton"
+    size_hint: 0.4, 0.4
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            text: "Kamu akan kehilangan sebanyak 25 point"
+            font_name: "zekton"
+        Button:
+            text: 'Setuju'
+            font_name: "zekton"
+            size_hint_y: 0.2
+            on_press: app.root.get_screen("game").confirmShowAnswer(root)
