@@ -1,0 +1,3 @@
+title=Tebak Kata
+author=Ilham Aditya
+orientation=portrait
